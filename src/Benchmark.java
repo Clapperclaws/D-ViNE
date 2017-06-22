@@ -125,7 +125,7 @@ public class Benchmark {
 		return sol;
 	}
 	
-	public void updateResidualCapacity(Tuple t, ArrayList<Tuple> path, int bw){
+	public void updateResidualCapacity(ArrayList<Tuple> path, int bw){
 	    //Update Network Capacity
 		for(int k=0;k<path.size();k++){
 			int src = path.get(k).getSource(); // Get the first edge of the link
@@ -227,12 +227,12 @@ public class Benchmark {
                 collapsedGraph.setPort(dstIP, collapsedGraph.getPorts()[dstIP]-1);
                 
                 //Update OTN Links Capacity
-                 updateResidualCapacity(ipTup, newIpLinkPath, bw); 
+                 updateResidualCapacity(newIpLinkPath, bw); 
             }       
         }
               
         //Update IP Links Capacity
-       updateResidualCapacity(vLink, sol.vnIp.linkMapping.get(vLink), bw); 
+       updateResidualCapacity(sol.vnIp.linkMapping.get(vLink), bw); 
         
        System.out.println("Test Collapsed Graph for Residual Capacity \n"+collapsedGraph);
     }
