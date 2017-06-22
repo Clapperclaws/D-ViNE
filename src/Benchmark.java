@@ -32,7 +32,7 @@ public class Benchmark {
 	 * balancing the relative influence of the residual IP and OTN capacity
 	 */
 	
-	public Solutions executeBenchmark(Graph vn, ArrayList<Integer>[] locationConstraints, int alfa, int beta){
+	public Solutions executeBenchmark(Graph vn, ArrayList<Integer>[] locationConstraints, double alfa, double beta){
 	   	
 		Solutions sol = new Solutions(vn.getAdjList().size(), ipNodesSize);
 		
@@ -44,7 +44,7 @@ public class Benchmark {
 		for(int i=0;i<ipNodesSize;i++){
 			int sumAdjIpBW  = collapsedGraph.getAdjBWByTpe(i, EndPoint.type.ip);
 			int sumAdjOtnBW = collapsedGraph.getAdjBWByTpe(i, EndPoint.type.otn);
-			costArray[i] = (alfa * sumAdjIpBW) + (beta * sumAdjOtnBW);
+			costArray[i] = (int)((alfa * sumAdjIpBW) + (beta * sumAdjOtnBW));
 		}
 		
 		//For Testing Purposes

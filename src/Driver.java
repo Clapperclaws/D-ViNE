@@ -49,7 +49,7 @@ public class Driver {
 			
 		//6- Get Initial Solution
 		 Benchmark bm = new Benchmark(ip, otn, ipOtn);
-		 bm.executeBenchmark(vn, locationConstraints,1,0);
+		 bm.executeBenchmark(vn, locationConstraints,0.5,0.5);
 	}
 	
 	public static String ReadFromFile(String filename) throws IOException{
