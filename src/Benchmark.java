@@ -96,7 +96,7 @@ public class Benchmark {
 				if(i==j)
 					continue;
 				
-				int bwDemand = vn.getBW(i, j); //Does this VLink Exists?
+				int bwDemand = vn.getBW(i, j, 0); //Does this VLink Exists?
 				if(bwDemand == -1)//it means this link doesn't exist
 					continue;
 				

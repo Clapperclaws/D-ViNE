@@ -78,27 +78,29 @@ public class Graph {
 		return adjList.get(nodeId);
 	}
 	
-	//Get the bandwidth of an incident link
-	public int getBW(int source, int destination){
-		
-		ArrayList<EndPoint> endPoints = adjList.get(source);
-		for(int i=0;i<endPoints.size();i++){
-			if(endPoints.get(i).getNodeId() == destination)
-				return endPoints.get(i).getBw();
-		}
-		return -1;
-	}
+	 // Get the bandwidth of an incident link
+    public int getBW(int source, int destination, int order) {
+
+        ArrayList<EndPoint> endPoints = adjList.get(source);
+        for (int i = 0; i < endPoints.size(); i++) {
+            if ((endPoints.get(i).getNodeId() == destination)
+                    && (endPoints.get(i).getOrder() == order))
+                return endPoints.get(i).getBw();
+        }
+        return -1;
+    }
+
 	
-	//Get the Weight of an incident link
-	public int getCost(int source, int destination){
-		
-		ArrayList<EndPoint> endPoints = adjList.get(source);
-		for(int i=0;i<endPoints.size();i++){
-			if(endPoints.get(i).getNodeId() == destination)
-				return endPoints.get(i).getCost();
-		}
-		return -1;
-	}
+    // Get the Weight of an incident link
+    public int getCost(int source, int destination, int order) {
+        ArrayList<EndPoint> endPoints = adjList.get(source);
+        for (int i = 0; i < endPoints.size(); i++) {
+            if (endPoints.get(i).getNodeId() == destination
+                    && endPoints.get(i).getOrder() == order)
+                return endPoints.get(i).getCost();
+        }
+        return -1;
+    }
 	
 	//Get the complete adjacency list
 	public ArrayList<ArrayList<EndPoint>> getAdjList(){
