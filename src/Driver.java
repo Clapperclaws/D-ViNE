@@ -219,21 +219,23 @@ public class Driver {
 	
 	/*This function reads a graph from file*/
 	public static Graph ReadTopology(String filename, EndPoint.type graphType, ArrayList<Tuple> links) throws IOException{
-	
 		Scanner scanner = new Scanner(ReadFromFile(filename));
-		Graph g= new Graph(Integer.parseInt(scanner.nextLine())); //Initialize Graph with the number of Nodes
-
+    //Initialize Graph with the number of Nodes
+		Graph g= new Graph(Integer.parseInt(scanner.nextLine())); 
 		while (scanner.hasNextLine()) {
 		  String line = scanner.nextLine();
             if(line != null){
             	//Split the line to get 0: index of the first node; 1: index of the second node; 2: bandwidth
             	String[] splitLine = line.split(",");
+              int src = Integer.parseInt(splitLine[0]);
+              int dst = Integer.parseInt(splitLine[1]);
+              int order = g.findTupleOrder(src, dst);
             	//Create Tuple for this link
-            	links.add(new Tuple(0,Integer.parseInt(splitLine[0]),Integer.parseInt(splitLine[1])));
+              links.add(new Tuple(order, src, dst));
             	//Create two end points
-            	EndPoint ep1 = new EndPoint(Integer.parseInt(splitLine[1]),Integer.parseInt(splitLine[2]),Integer.parseInt(splitLine[3]),graphType,0);
+            	EndPoint ep1 = new EndPoint(Integer.parseInt(splitLine[1]),Integer.parseInt(splitLine[2]),Integer.parseInt(splitLine[3]),graphType,order);
             	g.addEndPoint(Integer.parseInt(splitLine[0]), ep1);
-               	EndPoint ep2 = new EndPoint(Integer.parseInt(splitLine[0]),Integer.parseInt(splitLine[2]),Integer.parseInt(splitLine[3]),graphType,0);
+               	EndPoint ep2 = new EndPoint(Integer.parseInt(splitLine[0]),Integer.parseInt(splitLine[2]),Integer.parseInt(splitLine[3]),graphType,order);
             	g.addEndPoint(Integer.parseInt(splitLine[1]), ep2);
             }
         }       
