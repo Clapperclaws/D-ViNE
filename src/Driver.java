@@ -34,41 +34,43 @@ public class Driver {
         Graph otn = ReadTopology(parsedArgs.get("--otn_topology_file"),
                 EndPoint.type.otn, otnLinks);
         // Print graph for testing.
-        System.out.println("******* OTN Graph ******* \n" + otn);
+        // System.out.println("******* OTN Graph ******* \n" + otn);
 
         // 2-Initialize IP Graph & populate ipLinks.
         ipLinks = new ArrayList<Tuple>();
         Graph ip = ReadTopology(parsedArgs.get("--ip_topology_file"),
                 EndPoint.type.ip, ipLinks);
         // Print graph for testing
-        System.out.println("******* IP Graph ******* \n" + ip);
+        // System.out.println("******* IP Graph ******* \n" + ip);
 
         // Read IP Ports and Port Capacities
         ReadPortAttributes(parsedArgs.get("--ip_port_info_file"), ip);
-        for (int i = 0; i < ip.getPorts().length; i++)
+        /*for (int i = 0; i < ip.getPorts().length; i++)
             System.out.println("Node " + i + " has " + ip.getPorts()[i]
                     + " ports each of capacity " + ip.getPortCapacity()[i]);
+        */
 
         // 3- Map IP to OTN
         OverlayMapping ipOtn = ReadOverlayMapping(ip.getAdjList().size(),
                 parsedArgs.get("--ip_node_mapping_file"),
                 parsedArgs.get("--ip_link_mapping_file"));
-        System.out.println(
+        /* System.out.println(
                 "******* IP to OTN Overlay Mapping: ******* \n" + ipOtn);
+        */
 
         // 4- Initialize VN Graph
         vnLinks = new ArrayList<Tuple>();
         Graph vn = ReadTopology(parsedArgs.get("--vn_topology_file"),
                 EndPoint.type.virtual, vnLinks);
         // Print graph for testing.
-        System.out.println("******* VN Graph ******* \n" + vn);
+        // System.out.println("******* VN Graph ******* \n" + vn);
 
         // 5- Initialize Location Constraints (Set all IP nodes as candidates
         // for each VN node).
         ArrayList<Integer> locationConstraints[] = ReadLocationConstraints(
                 parsedArgs.get("--vn_location_file"), vn.getAdjList().size());
         for (int i = 0; i < locationConstraints.length; i++) {
-            System.out.println("Location Constraints of node " + i);
+            // System.out.println("Location Constraints of node " + i);
             for (int j = 0; j < locationConstraints[i].size(); j++)
                 System.out.print(locationConstraints[i].get(j) + ",");
             System.out.println();
@@ -255,8 +257,8 @@ public class Driver {
 	                int linkCost = ip.getCost(link.getSource(),
 	                        link.getDestination(), link.getOrder());
 	                if (linkCost == -1) linkCost = 1;
-	                System.out.println("VL bw = " + bw + "; IP Link Cost = "
-	                        + linkCost + "\n");
+	                // System.out.println("VL bw = " + bw + "; IP Link Cost = "
+	                //         + linkCost + "\n");
 	                cost += (bw * linkCost);
 	            }
 	        }
@@ -271,8 +273,8 @@ public class Driver {
 	            for (Tuple link : otnPath) {
 	                int linkCost = otn.getCost(link.getSource() - offset,
 	                        link.getDestination() - offset, link.getOrder());
-	                System.out.println("IP bw = " + bw + "; OTN Link Cost = "
-	                        + linkCost + "\n");
+	                // System.out.println("IP bw = " + bw + "; OTN Link Cost = "
+	                //         + linkCost + "\n");
 	                cost += (bw * linkCost);
 	            }
 	        }

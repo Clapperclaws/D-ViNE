@@ -48,43 +48,42 @@ public class Benchmark {
 		}
 		
 		//For Testing Purposes
-		System.out.println("Cost Array");
+		/*System.out.println("Cost Array");
 		for(int i=0;i<ipNodesSize;i++){
 			System.out.println(i+","+costArray[i]);
-		}
+		}*/
 		
 		//2- Sort the array in decreasing order of Costs
 		int[] pNodesOrder = sortArrayDescendingOrder(costArray);
-		System.out.println("Physical Nodes Sorted in Decreasing Order of Cost Array Values");
-		for(int i=0;i<pNodesOrder.length;i++){
+		// System.out.println("Physical Nodes Sorted in Decreasing Order of Cost Array Values");
+		/*for(int i=0;i<pNodesOrder.length;i++){
 			System.out.print(pNodesOrder[i]+",");
 		}
-		System.out.println();
-		
-		
+		System.out.println();*/
+				
 		//3- Sort the VNs in decreasing order of sum of adj BW demands
 		int[] vnBWDemands = new int[vn.getNodeCount()];
 		for(int i=0;i<vnBWDemands.length;i++)
 			vnBWDemands[i] = vn.getAdjBW(i);
 		int[] vNodesOrder = sortArrayDescendingOrder(vnBWDemands);
 		
-		System.out.println("VN Nodes Sorted in Decreasing Order of Sum Adj Bw");
-		for(int i=0;i<vNodesOrder.length;i++){
+		// System.out.println("VN Nodes Sorted in Decreasing Order of Sum Adj Bw");
+		/*for(int i=0;i<vNodesOrder.length;i++){
 			System.out.print(vNodesOrder[i]+",");
-		}
-		System.out.println();
+		}*/
+		// System.out.println();
 		
 		//4- Perform one-to-one embedding
 		a: for(int i=0;i<vNodesOrder.length;i++){
 			for(int j=0;j<pNodesOrder.length;j++){
 				if(locationConstraints[vNodesOrder[i]].contains(pNodesOrder[j]) 
 						&& !sol.vnIp.isOccupied(pNodesOrder[j])){
-					System.out.println(vNodesOrder[i]+"->"+pNodesOrder[j]);
+					// System.out.println(vNodesOrder[i]+"->"+pNodesOrder[j]);
 					sol.vnIp.setNodeMappingSolution(vNodesOrder[i],pNodesOrder[j]);
 				 continue a;
 				}
 			}
-			System.out.println("Failed to find a Feasible Node Embedding Solution!");
+			// System.out.println("Failed to find a Feasible Node Embedding Solution!");
 			return null;
 		}
 		
@@ -100,7 +99,7 @@ public class Benchmark {
 				if(bwDemand == -1)//it means this link doesn't exist
 					continue;
 				
-				System.out.println("Embedding Virtual Link: ("+i+","+j+")");
+				// System.out.println("Embedding Virtual Link: ("+i+","+j+")");
 				//Get The Node Embedding of "i"
 				int srcIP = sol.vnIp.getNodeMapping(i);
 				int dstIP = sol.vnIp.getNodeMapping(j);
@@ -109,7 +108,7 @@ public class Benchmark {
 				ArrayList<Tuple> t = dj.getPath(srcIP,dstIP, bwDemand);
 				if(t == null)
 					return null;
-				System.out.println(t);
+				// System.out.println(t);
 				//Update Network Capacity
 				//updateResidualCapacity(t, bwDemand);
 				
@@ -209,7 +208,7 @@ public class Benchmark {
                 // Get Bandwidth Capacity of new IP Link
                 int newIPLinkCap = Math.min(
                         collapsedGraph.getPortCapacity()[srcIP],
-                        collapsedGraph.getPortCapacity()[dstIP]);
+                        collapsedGraph.getPortCapacity()[dstIP]) - bw;
 
                 // Add ipSrc as neighbor of ipDst
                 collapsedGraph.addEndPoint(srcIP, new EndPoint(dstIP, 1,
@@ -234,7 +233,7 @@ public class Benchmark {
         //Update IP Links Capacity
        updateResidualCapacity(sol.vnIp.linkMapping.get(vLink), bw); 
         
-       System.out.println("Test Collapsed Graph for Residual Capacity \n"+collapsedGraph);
+       // System.out.println("Test Collapsed Graph for Residual Capacity \n"+collapsedGraph);
     }
 
 	public int[] sortArrayDescendingOrder(int [] array){
