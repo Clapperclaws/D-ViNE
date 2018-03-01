@@ -124,7 +124,7 @@ public class Benchmark {
 		return sol;
 	}
 	
-	public void updateResidualCapacity(ArrayList<Tuple> path, int bw){
+	public boolean updateResidualCapacity(ArrayList<Tuple> path, int bw){
 	    //Update Network Capacity
 		for(int k=0;k<path.size();k++){
 			int src = path.get(k).getSource(); // Get the first edge of the link
@@ -132,6 +132,8 @@ public class Benchmark {
 			int dstIndex = collapsedGraph.getNodeIndex(src, dst, path.get(k).getOrder()); //Find the index of the second edge
 			int srcIndex = collapsedGraph.getNodeIndex(dst, src, path.get(k).getOrder()); //Find the index of the first edge
 			
+      if (bw > collapsedGraph.getAdjList().get(src).get(dstIndex).getBw())
+        return false;
 			//Update BW Capacity for the first edge
 			collapsedGraph.getAdjList().get(src).get(dstIndex).
 			setBw(collapsedGraph.getAdjList().get(src).get(dstIndex).getBw()-bw);
@@ -140,6 +142,7 @@ public class Benchmark {
 			collapsedGraph.getAdjList().get(dst).get(srcIndex).
 			setBw(collapsedGraph.getAdjList().get(dst).get(srcIndex).getBw()-bw);
 		}
+    return true;
 	}
 	
     // This function iteratively aggregates the final Solution after every
@@ -231,12 +234,15 @@ public class Benchmark {
                 collapsedGraph.setPort(dstIP, collapsedGraph.getPorts()[dstIP]-1);
                 
                 //Update OTN Links Capacity
-                updateResidualCapacity(newIpLinkPath, newIPLinkCap); 
+                boolean ret = updateResidualCapacity(newIpLinkPath, newIPLinkCap); 
+                if (!ret)
+                  return false;
             }       
         }
               
        //Update IP Links Capacity
-       updateResidualCapacity(sol.vnIp.linkMapping.get(vLink), bw); 
+       boolean ret = updateResidualCapacity(sol.vnIp.linkMapping.get(vLink), bw); 
+       if (!ret) return false;
        return true;
        // System.out.println("Test Collapsed Graph for Residual Capacity \n"+collapsedGraph);
     }
