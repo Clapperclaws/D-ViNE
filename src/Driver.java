@@ -69,12 +69,12 @@ public class Driver {
         // for each VN node).
         ArrayList<Integer> locationConstraints[] = ReadLocationConstraints(
                 parsedArgs.get("--vn_location_file"), vn.getAdjList().size());
-        for (int i = 0; i < locationConstraints.length; i++) {
+        // for (int i = 0; i < locationConstraints.length; i++) {
             // System.out.println("Location Constraints of node " + i);
-            for (int j = 0; j < locationConstraints[i].size(); j++)
-                System.out.print(locationConstraints[i].get(j) + ",");
-            System.out.println();
-        }
+            // for (int j = 0; j < locationConstraints[i].size(); j++)
+            //     System.out.print(locationConstraints[i].get(j) + ",");
+            // System.out.println();
+        // }
 
         // 6- Get Initial Solution
         long startTime = System.nanoTime();

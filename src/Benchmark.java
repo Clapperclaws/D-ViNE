@@ -24,7 +24,7 @@ public class Benchmark {
 			collapsedGraph.addEndPoint(i,new EndPoint(ip.getAdjList().size()+ipOtn.getNodeMapping(i),1,ip.getPortCapacity()[i],EndPoint.type.otn,0));
 			collapsedGraph.addEndPoint(ip.getAdjList().size()+ipOtn.getNodeMapping(i),new EndPoint(i,1,ip.getPortCapacity()[i],EndPoint.type.ip,0));		
 		}
-		System.out.println("Collapsed Graph: \n"+collapsedGraph);
+		// System.out.println("Collapsed Graph: \n"+collapsedGraph);
 	}
 	
 	/*
@@ -119,7 +119,7 @@ public class Benchmark {
 		
 		//3- Add Link Mapping to the Overlay Mapping Sol
 		//omSol.linkMapping = linkEmbeddingSolution;
-		System.out.println("Overlay Mapping Solution: \n"+sol);
+		// System.out.println("Overlay Mapping Solution: \n"+sol);
 		
 		return sol;
 	}
