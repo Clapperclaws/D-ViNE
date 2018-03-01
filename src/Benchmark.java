@@ -169,7 +169,7 @@ public class Benchmark {
             		dst >= ipNodesSize && dst < (otnNodesSize + ipNodesSize)) {
             	 // First check if both source and destination IP nodes have 
                // at least one port available or not.
-               if(collapsedGraph.getPorts()[srcIP] <= 1 || collapsedGraph.getPorts()[dstIP] <= 1)
+               if(collapsedGraph.getPorts()[src] <= 1)
                  return false;
 
             	  // Add the OTN dst as the Node embedding of the IP src.
@@ -192,6 +192,8 @@ public class Benchmark {
             if ((dst >=0 && dst <ipNodesSize)&&
             		src >= ipNodesSize && src < (otnNodesSize + ipNodesSize)) {
             	
+               if(collapsedGraph.getPorts()[dst] <= 1)
+                 return false;
             	// Add the OTN src as the Node embedding of the IP dst.
                 sol.ipOtn.nodeMapping[dst] = src;
                 dstIP = dst;
