@@ -57,6 +57,7 @@ public class Graph {
 				ep.setNodeId(ep.getNodeId()+g1.getAdjList().size());
 				adjList.get(g1.getAdjList().size()+i).add(ep);
 			}
+      portCapacity[i + g1.getAdjList().size()] = g2.getAdjList().get(i).size();
 		}
 	}
 

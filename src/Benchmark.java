@@ -113,14 +113,14 @@ public class Benchmark {
 				//updateResidualCapacity(t, bwDemand);
 				
 				//Aggergate into final solution
-				aggregateFinalSolution(new Tuple(0,i,j), t, bwDemand, sol);		
+				boolean ret = aggregateFinalSolution(new Tuple(0,i,j), t, bwDemand, sol);		
+        if (!ret)
+          return null;
 			}
 		}
-		
 		//3- Add Link Mapping to the Overlay Mapping Sol
 		//omSol.linkMapping = linkEmbeddingSolution;
 		// System.out.println("Overlay Mapping Solution: \n"+sol);
-		
 		return sol;
 	}
 	
@@ -144,8 +144,7 @@ public class Benchmark {
 	
     // This function iteratively aggregates the final Solution after every
     // iteration.
-    public void aggregateFinalSolution(Tuple vLink, ArrayList<Tuple> path, int bw, Solutions sol) {
-    	            
+    public boolean aggregateFinalSolution(Tuple vLink, ArrayList<Tuple> path, int bw, Solutions sol) {    	            
         //Initialize a Path entry for the VLink
         sol.vnIp.linkMapping.put(vLink, new ArrayList<Tuple>());
         
@@ -168,8 +167,12 @@ public class Benchmark {
             // Case of IP -> OTN
             if ((src >=0 && src <ipNodesSize)&&
             		dst >= ipNodesSize && dst < (otnNodesSize + ipNodesSize)) {
-            	
-            	// Add the OTN dst as the Node embedding of the IP src.
+            	 // First check if both source and destination IP nodes have 
+               // at least one port available or not.
+               if(collapsedGraph.getPorts()[srcIP] <= 1 || collapsedGraph.getPorts()[dstIP] <= 1)
+                 return false;
+
+            	  // Add the OTN dst as the Node embedding of the IP src.
                 sol.ipOtn.nodeMapping[src] = dst;
                 srcIP = src;
                 
@@ -208,7 +211,7 @@ public class Benchmark {
                 // Get Bandwidth Capacity of new IP Link
                 int newIPLinkCap = Math.min(
                         collapsedGraph.getPortCapacity()[srcIP],
-                        collapsedGraph.getPortCapacity()[dstIP]) - bw;
+                        collapsedGraph.getPortCapacity()[dstIP]);
 
                 // Add ipSrc as neighbor of ipDst
                 collapsedGraph.addEndPoint(srcIP, new EndPoint(dstIP, 1,
@@ -226,13 +229,13 @@ public class Benchmark {
                 collapsedGraph.setPort(dstIP, collapsedGraph.getPorts()[dstIP]-1);
                 
                 //Update OTN Links Capacity
-                 updateResidualCapacity(newIpLinkPath, bw); 
+                updateResidualCapacity(newIpLinkPath, newIPLinkCap); 
             }       
         }
               
-        //Update IP Links Capacity
+       //Update IP Links Capacity
        updateResidualCapacity(sol.vnIp.linkMapping.get(vLink), bw); 
-        
+       return true;
        // System.out.println("Test Collapsed Graph for Residual Capacity \n"+collapsedGraph);
     }
 
